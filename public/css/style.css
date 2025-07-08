@@ -98,9 +98,11 @@ body {
 }
 
 .listing-card {
-    height: 17rem;
-    width: 18.5rem;
+    height: 23rem !important;
+    width: 100% !important;
+    max-width: 23rem;
     border: none !important;
+    margin: auto; /* center the card in column */
 }
 
 .card-img-top {
