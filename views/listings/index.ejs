@@ -1,21 +1,69 @@
 <% layout("/layouts/boilerplate") %>
 
-<h3>All Listings</h3>
-<!-- <form method="GET" action="/listings/new">
-    <button>Create New Listing</button>
-</form> -->
-
+<div id="filters" style="margin-left: 1.75rem">
+    <div class="filter">
+        <div><i class="fa-solid fa-fire"></i></div>
+        <p>Trending</p>
+    </div>
+    <div class="filter">
+        <div><i class="fa-solid fa-bed"></i></div>
+        <p>Rooms</p>
+    </div>
+    <div class="filter">
+        <div><i class="fa-solid fa-mountain-city"></i></div>
+        <p>Iconic Cities</p>
+    </div>
+    <div class="filter">
+        <div><i class="fa-solid fa-ship"></i></div>
+        <p>Boats</p>
+    </div>
+    <div class="filter">
+        <div><i class="fa-solid fa-mountain"></i></div>
+        <p>Mountains</p>
+    </div>
+    <div class="filter">
+        <div><i class="fa-brands fa-fort-awesome"></i></div>
+        <p>Castles</p>
+    </div>
+    <div class="filter">
+        <div><i class="fa-solid fa-person-swimming"></i></div>
+        <p>Amazing Pools</p>
+    </div>
+    <div class="filter">
+        <div><i class="fa-solid fa-snowflake"></i></div>
+        <p>Arctic</p>
+    </div>
+    <div class="filter">
+        <div><i class="fa-solid fa-campground"></i></div>
+        <p>Camping</p>
+    </div>
+    <div class="filter">
+        <div><i class="fa-solid fa-tractor"></i></div>
+        <p>Farms</p>
+    </div>
+    <div class="filter">
+        <div><i class="fa-solid fa-water"></i></div>
+        <p>Riverside</p>
+    </div>
+    <div class="filter">
+        <div><i class="fa-solid fa-umbrella-beach"></i></div>
+        <p>Coastal Stays</p>
+    </div>
+    <div class="filter">
+        <div><i class="fa-solid fa-city"></i></div>
+        <p>Cityscape</p>
+    </div>
+</div>
 <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
-    <% for(let listing of allListings) {%>
-    <a href="/listings/<%= listing._id %>" class="listing-link">
-        <div class="card col">
-            <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="height: 20rem">
-            <div class="card-img-overlay"></div>
+    <% for(let listing of allListings) { %>
+    <a href="/listings/<%= listing._id %>" class="link">
+        <div class="cards listing-card" style="margin-left: 1rem; width: 23rem; height: 23rem">
+            <img src="<%= listing.image %>" alt="listing image" class="card-img-top">
             <div class="card-body">
-                <p class="card-text">
-                    <b><%= listing.title %></b> <br>
-                    Price: &#8377;<%=listing.price.toLocaleString("en-IN")%>/night
-                </p>
+                <div class="card-text">
+                    <b><%= listing.title %></b><br>
+                    &#8377;<%= listing.price.toLocaleString("en-IN") %>/night 
+                </div>
             </div>
         </div>
     </a>

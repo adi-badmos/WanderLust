@@ -2,25 +2,23 @@ const mongoose = require("mongoose");
 const initData = require("./data.js");
 const Listing = require("../models/listing.js");
 
-// Connecting to the Database
-const mong = "mongodb://127.0.0.1:27017/wanderlust";
-main()
-    .then(() => {
-        console.log("Connected to Database");
-    }) .catch((err) => {
-        console.log(err);
-    });
+const mongo_url = "mongodb://127.0.0.1:27017/wanderlust";
 
-async function main() {
-    await mongoose.connect(mong);
-}
-// connected
+main().then(() => {
+    console.log("Connected to database");
+}).catch((err) => {
+    console.log(err);
+});
 
-const initDB = async () => {
-    await Listing.deleteMany({});
-    initData.data = initData.data.map((obj) => ({...obj, owner: "68381adc489c57cd28baf2b0"}));
-    await Listing.insertMany(initData.data);
-    console.log("Initialised Database");
+async function main () {
+    await mongoose.connect(mongo_url);
 };
+
+const initDB = async() => {
+    await Listing.deleteMany({});
+    initData.data = initData.data.map((obj) => ({...obj, owner: "686a61dd0e3514c14ef0dd7c"})),
+    await Listing.insertMany(initData.data);
+    console.log("Database was initialized");
+}
 
 initDB();

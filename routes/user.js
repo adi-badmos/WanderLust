@@ -1,43 +1,32 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/user.js");
-const wrapAsync = require("../utils/wrapAsync.js");
+const User = require("../models/user");
+const wrapAsync = require("../utils/wrapAsync");
 const passport = require("passport");
-const {saveRedirectUrl} = require("../middleware.js");
+const {saveRedirectUrl} = require("../middleware");
+const userController = require("../controllers/users.js");
 
-router.get("/signup", (req, res) => {
-    res.render("users/signup.ejs");
+// Users
+// SignUp
+// Route: "/signup"
+router.route("/signup")
+.get(userController.renderSignUpForm)
+.post(saveRedirectUrl, wrapAsync(userController.signup));
+
+// Login
+// Route: "/login"
+router.route("/login")
+.get(userController.renderLoginForm)
+.post(saveRedirectUrl, passport.authenticate("local", {failureRedirect: '/login', failureFlash: true}), wrapAsync(userController.login));
+
+// passport.authenticate(): passport ka ek middleware h jo ki authentication ke liye use hota h
+// It will check whether the entered user exists or not
+
+// Logout
+router.get("/logout", userController.logout);
+
+router.use((req, res, next) => {
+    next(); // allow 404 handler in app.js to run
 });
-
-router.post("/signup", wrapAsync(async(req, res) => {
-    let {username, email, password} = req.body;
-    const newUser = new User({email, username});
-    const registeredUser = await User.register(newUser, password);
-
-    req.login(registeredUser, (err) => {
-        if(err) {
-            return next(err);
-        } res.redirect("/listings");
-    })
-    console.log(registeredUser);
-    })
-);
-
-router.get("/login", (req, res) => {
-    res.render("users/login.ejs");
-});
-
-router.post("/login", saveRedirectUrl, passport.authenticate("local", {failureRedirect: '/login'}), async(req, res) => {
-    let redirectUrl = res.locals.redirectUrl || "/listings"; 
-    res.redirect(redirectUrl);
-});
-
-router.get("/logout", (req, res, next) => {
-    req.logout((err) => {
-        if(err) {
-            return next(err);
-        } res.redirect("/listings");
-    })
-})
 
 module.exports = router;
